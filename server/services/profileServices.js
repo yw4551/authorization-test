@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import Profile from "../models/user.js";
+import Profile from "../models/profile.js";
 
 export const registerService = async (name, email, phone, password) => {
     const trimmedEmail = email.toLowerCase().trim();
@@ -8,8 +8,8 @@ export const registerService = async (name, email, phone, password) => {
     const findProfile = await Profile.findOne({ email: trimmedEmail });
 
     if (findProfile) {
-        const error = new Error("Email not found");
-        error.status = 404;
+        const error = new Error("Email already in use");
+        error.status = 409;
         throw error;
     }
 
@@ -49,4 +49,9 @@ export const loginService = async (email, password) => {
     );
 
     return token;
+};
+
+export const getById = async (id) => {
+    const profile = await Profile.findById(id).select(-password);
+    return profile;
 };

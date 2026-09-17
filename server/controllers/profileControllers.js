@@ -1,4 +1,8 @@
-import { loginService, registerService } from "../services/profileServices.js";
+import {
+    getById,
+    loginService,
+    registerService,
+} from "../services/profileServices.js";
 
 export const register = async (req, res) => {
     try {
@@ -25,14 +29,11 @@ export const register = async (req, res) => {
             });
         }
 
-        const profile = await registerService(name, email, phone, password);
+        await registerService(name, email, phone, password);
 
         res.status(201).json({
             success: true,
             message: "Profile created successfully",
-            data: {
-                profile,
-            },
         });
     } catch (err) {
         res.status(err.status).json({
@@ -67,6 +68,31 @@ export const login = async (req, res) => {
             message: "User logged in successfully",
             data: {
                 token,
+            },
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message,
+        });
+    }
+};
+
+export const getProfile = async (req, res) => {
+    try {
+        const profile = await getById(req.profile.id);
+
+        if (!profile) {
+            return res.status(404).json({
+                success: false,
+                error: "User profile not found",
+            });
+        }
+
+        res.json({
+            success: true,
+            data: {
+                profile,
             },
         });
     } catch (error) {

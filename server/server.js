@@ -15,6 +15,8 @@ app.use(
 );
 app.use(express.json());
 
+app.use("/auth", profileRouter);
+
 const startServer = async () => {
     await connectDb();
 
@@ -22,7 +24,5 @@ const startServer = async () => {
         console.log(`Server running on port ${PORT}`);
     });
 };
-
-app.use("/auth", profileRouter);
 
 startServer();
