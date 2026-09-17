@@ -1,5 +1,7 @@
 import { useAuth } from "./useAuth";
 
+const port = 3001;
+
 export const useFetch = async <T>(
     endpoint: string,
     options: RequestInit = {},
@@ -12,13 +14,10 @@ export const useFetch = async <T>(
         headers.set("Authorization", `Bearer ${token}`);
     }
 
-    const response = await fetch(
-        `http://localhost:${import.meta.env.PORT}${endpoint}`,
-        {
-            ...options,
-            headers,
-        },
-    );
+    const response = await fetch(`http://localhost:${port}${endpoint}`, {
+        ...options,
+        headers,
+    });
 
     const data = await response.json().catch(() => null);
 
