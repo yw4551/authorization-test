@@ -13,7 +13,9 @@ function App() {
                     <Route path="/" element={<Welcome />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/profile" element={<Profile />} />
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/profile" element={<Profile />} />
+                    </Route>
                     <Route path="*" element={<Welcome />} />
                 </Routes>
             </BrowserRouter>
