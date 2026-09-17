@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import cors from "cors";
 import connectDb from "./config/db.js";
+import profileRouter from "./routes/profileRoutes.js";
 
 const PORT = process.env.PORT || 3000;
 
@@ -21,5 +22,7 @@ const startServer = async () => {
         console.log(`Server running on port ${PORT}`);
     });
 };
+
+app.use("/auth", profileRouter);
 
 startServer();
